@@ -1,0 +1,10 @@
+package main
+
+type Box[T any] struct { Value T }
+type Result[U any] struct { Output U }
+func (b Box[T]) Convert[U any](v U) Result[U] { return Result[U]{Output: v} }
+
+func main() {
+	var box Box[int]
+	box.
+}

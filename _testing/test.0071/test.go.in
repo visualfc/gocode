@@ -1,0 +1,9 @@
+package main
+
+type Box[T any] struct { Value T }
+func Make[T any](v T) Box[T] { return Box[T]{Value: v} }
+
+func main() {
+	var box = Make("text")
+	box.
+}

@@ -1,0 +1,10 @@
+package main
+
+type Bag[T any] struct { value T }
+func (b Bag[T]) Get() T { return b.value }
+func (b *Bag[T]) Set(v T) { b.value = v }
+
+func main() {
+	var bag Bag[string]
+	bag.
+}

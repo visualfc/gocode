@@ -1,0 +1,8 @@
+package main
+
+type Pair[A, B any] struct { First A; Second B }
+
+func main() {
+	var pair Pair[int, string]
+	pair.
+}

@@ -1,0 +1,9 @@
+package main
+
+type Option[T any] struct { Value T }
+func Some[T any](v T) Option[T] { return Option[T]{Value: v} }
+
+func main() {
+	var option Option[[]string]
+	option.
+}

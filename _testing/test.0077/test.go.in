@@ -1,0 +1,9 @@
+package main
+
+type Matrix[T any] struct { Value T }
+type Grid[T any] struct { Cell Matrix[T] }
+
+func main() {
+	var grid Grid[float64]
+	grid.Cell.
+}

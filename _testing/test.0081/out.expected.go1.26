@@ -1,0 +1,3 @@
+Found 2 candidates:
+  func Map(v invalid type) (invalid type)
+  var Value int

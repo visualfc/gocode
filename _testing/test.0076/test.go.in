@@ -1,0 +1,9 @@
+package main
+
+type Result[T any] struct { Data T; Valid bool }
+func NewResult[T any](v T) Result[T] { return Result[T]{Data: v, Valid: true} }
+
+func main() {
+	var result = NewResult(42)
+	result.
+}
