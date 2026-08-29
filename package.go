@@ -186,6 +186,7 @@ func pkg_parse_export(pkg *types.Package, pfc *package_file_cache, callback func
 					Tok:   token.TYPE,
 					Specs: []ast.Spec{toTypeSpec(pkg, t)},
 				}
+				callback(pkgid, decl)
 				if named, ok := t.Type().(*types.Named); ok {
 					for _, sel := range typeutil.IntuitiveMethodSet(named, nil) {
 						sig := sel.Type().(*types.Signature)
@@ -197,6 +198,7 @@ func pkg_parse_export(pkg *types.Package, pfc *package_file_cache, callback func
 						callback(pkgid, decl)
 					}
 				}
+				continue
 			case *types.Func:
 				sig := t.Type().(*types.Signature)
 				decl = &ast.FuncDecl{

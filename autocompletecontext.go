@@ -272,6 +272,19 @@ func (c *auto_complete_context) decl_package_import_path(decl *decl) string {
 }
 
 func (c *auto_complete_context) get_candidates_from_decl(cc cursor_context, class decl_class, b *out_buffers) {
+	// Some newer export/type-check paths produce a declaration without the
+	// method children attached. Recover the method set directly from go/types.
+	if len(cc.decl.children) == 0 {
+		if typ := c.lookup_ident(cc.expr); typ != nil {
+			if named, ok := typ.(*types.Named); ok {
+				for _, sel := range typeutil.IntuitiveMethodSet(named, nil) {
+					sig := sel.Type().(*types.Signature)
+					method := new_decl_full(sel.Obj().Name(), decl_func, decl_foreign, toType(sel.Obj().Pkg(), sig), nil, -1, cc.decl.scope)
+					b.append_decl(cc.partial, method.name, c.decl_package_import_path(cc.decl), method, class)
+				}
+			}
+		}
+	}
 	if cc.decl.is_alias() {
 		c.get_candidates_from_decl_alias(cc, class, b)
 		return
