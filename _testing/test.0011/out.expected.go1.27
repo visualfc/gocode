@@ -1,4 +1,4 @@
-Found 103 candidates:
+Found 105 candidates:
   func Addr() reflect.Value
   func Bool() bool
   func Bytes() []byte
@@ -15,7 +15,7 @@ Found 103 candidates:
   func Cap() int
   func Clear()
   func Close()
-  func Comparable() bool
+  func Comparable() (#rv1 bool)
   func Complex() complex128
   func Convert(t reflect.Type) reflect.Value
   func Elem() reflect.Value
@@ -25,6 +25,7 @@ Found 103 candidates:
   func FieldByIndexErr(index []int) (reflect.Value, error)
   func FieldByName(name string) reflect.Value
   func FieldByNameFunc(match func(string) bool) reflect.Value
+  func Fields() (iter.Seq2[reflect.StructField, reflect.Value])
   func Float() float64
   func Grow(n int)
   func Index(i int) reflect.Value
@@ -41,6 +42,7 @@ Found 103 candidates:
   func MapRange() *reflect.MapIter
   func Method(i int) reflect.Value
   func MethodByName(name string) reflect.Value
+  func Methods() (iter.Seq2[reflect.Method, reflect.Value])
   func NumField() int
   func NumMethod() int
   func OverflowComplex(x complex128) bool

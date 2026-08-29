@@ -35,7 +35,11 @@ def run_test(t)
 	$stats.total += 1
 
 	cursorpos = Dir["#{t}/cursor.*"].map{|d| File.extname(d)[1..-1]}.first
-	outexpected = IO.read("#{t}/out.expected") rescue "To be determined"
+	version = `go env GOVERSION 2>/dev/null`.strip.sub(/^go/, '')
+	major_minor = version.split('.')[0, 2].join('.')
+	versioned = "#{t}/out.expected.go#{major_minor}"
+	expected_file = File.file?(versioned) ? versioned : "#{t}/out.expected"
+	outexpected = IO.read(expected_file) rescue "To be determined"
 	filename = "#{t}/test.go.in"
 
 	out = %x[gocode -in #{filename} autocomplete #{filename} #{cursorpos}]

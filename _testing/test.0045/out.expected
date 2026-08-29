@@ -2,7 +2,7 @@ Found 41 candidates:
   func Append(b []byte, a ...interface{}) []byte
   func Appendf(b []byte, format string, a ...interface{}) []byte
   func Appendln(b []byte, a ...interface{}) []byte
-  func Errorf(format string, a ...interface{}) (err error)
+  func Errorf(format string, a ...interface{}) error
   func Flag(c int) bool
   func Format(f fmt.State, verb rune)
   func FormatString(state fmt.State, verb rune) string
