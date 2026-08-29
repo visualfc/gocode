@@ -119,6 +119,10 @@ func toType(pkg *types.Package, typ types.Type) ast.Expr {
 		return &ast.StarExpr{X: toType(pkg, t.Elem())}
 	case *types.Named:
 		return toNamedType(pkg, t)
+	case *types.Alias:
+		return toType(pkg, t.Rhs())
+	case *types.Union:
+		return toUnionType(pkg, t)
 	case *types.Interface:
 		return toInterface(pkg, t)
 	case *types.Slice:
@@ -138,6 +142,23 @@ func toType(pkg *types.Package, typ types.Type) ast.Expr {
 	}
 	log.Panicln("TODO: toType -", reflect.TypeOf(typ))
 	return nil
+}
+
+func toUnionType(pkg *types.Package, t *types.Union) ast.Expr {
+	var expr ast.Expr
+	for i := 0; i < t.Len(); i++ {
+		term := t.Term(i)
+		item := toType(pkg, term.Type())
+		if term.Tilde() {
+			item = &ast.UnaryExpr{Op: TILDE, X: item}
+		}
+		if expr == nil {
+			expr = item
+		} else {
+			expr = &ast.BinaryExpr{X: expr, Op: token.OR, Y: item}
+		}
+	}
+	return expr
 }
 
 func toObjectExpr(pkg *types.Package, v types.Object) ast.Expr {

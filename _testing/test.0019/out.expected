@@ -1,4 +1,4 @@
-Found 15 candidates:
+Found 16 candidates:
   const BestCompression 
   const BestSpeed 
   const DefaultCompression 
@@ -9,6 +9,7 @@ Found 15 candidates:
   func NewWriter(w io.Writer) *zlib.Writer
   func NewWriterLevel(w io.Writer, level int) (*zlib.Writer, error)
   func NewWriterLevelDict(w io.Writer, level int, dict []byte) (*zlib.Writer, error)
+  func Reset(r io.Reader, dict []byte) error
   type Resetter interface
   type Writer struct
   var ErrChecksum error
