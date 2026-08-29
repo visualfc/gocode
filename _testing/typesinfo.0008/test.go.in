@@ -1,0 +1,12 @@
+package main
+
+type Reader interface { Read([]byte) (int, error) }
+
+type ByteReader struct{}
+
+func (ByteReader) Read(b []byte) (int, error) { return len(b), nil }
+
+func main() {
+	var r Reader = ByteReader{}
+	r.Read(nil)
+}

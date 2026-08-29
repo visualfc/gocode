@@ -1,0 +1,11 @@
+package main
+
+type Pair[A, B any] struct { First A; Second B }
+
+func Identity[T any](v T) T { return v }
+
+func main() {
+	p := Pair[string, int]{First: "x", Second: 1}
+	_ = p.First
+	_ = Identity[int](p.Second)
+}

@@ -1,0 +1,2 @@
+FILE:5:6
+func Identity[T any](v T) T

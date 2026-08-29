@@ -86,3 +86,11 @@ test.0085 - unsafe.Pointer type
 test.0086 - unsafe.SliceData result
 test.0087 - unsafe.StringData result
 test.0088 - unsafe.Pointer type alias
+typesinfo.0001 - instantiated generic method
+typesinfo.0002 - local variable
+typesinfo.0003 - standard library function and documentation
+typesinfo.0004 - generic type parameter
+typesinfo.0005 - instantiated generic composite literal field
+typesinfo.0006 - generic function instantiation
+typesinfo.0007 - instantiated generic selector field
+typesinfo.0008 - interface method selector

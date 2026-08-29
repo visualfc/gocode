@@ -8,3 +8,7 @@ because usually you spend some time in editor between requests and
 that time is wasted on a GC run, but testing app throws requests one
 after another and it causes GC to eat a lot of CPU. So.. don't worry
 about that.
+
+Server-side type information tests can be run with:
+
+    ruby typesinfo.rb
