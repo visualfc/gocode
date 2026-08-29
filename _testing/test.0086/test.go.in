@@ -1,0 +1,8 @@
+package main
+
+import "unsafe"
+
+func main() {
+	var data []byte
+	unsafe.SliceData(data).
+}

@@ -1,0 +1,10 @@
+Found 9 candidates:
+  func Add(ptr Pointer, len IntegerType) Pointer
+  func Alignof(x ArbitraryType) uintptr
+  func Offsetof(x ArbitraryType) uintptr
+  func Sizeof(x ArbitraryType) uintptr
+  func Slice(ptr *ArbitraryType, len IntegerType) []ArbitraryType
+  func SliceData(slice []ArbitraryType) *ArbitraryType
+  func String(ptr *byte, len IntegerType) string
+  func StringData(str string) *byte
+  type Pointer *ArbitraryType
