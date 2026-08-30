@@ -1,0 +1,10 @@
+Found 9 candidates:
+  var ForkLock sync.RWMutex
+  var OID_PKIX_KP_SERVER_AUTH []byte
+  var OID_SERVER_GATED_CRYPTO []byte
+  var OID_SGC_NETSCAPE []byte
+  var SocketDisableIPv6 bool
+  var Stderr syscall.Handle
+  var Stdin syscall.Handle
+  var Stdout syscall.Handle
+  var WSAID_CONNECTEX syscall.GUID

@@ -3,7 +3,7 @@ module github.com/visualfc/gocode
 go 1.25.0
 
 require (
-	github.com/visualfc/gotools v1.5.5-0.20260829095928-37d050d3eb58
+	github.com/visualfc/gotools v1.6.0
 	golang.org/x/tools v0.49.0
 )
 

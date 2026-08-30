@@ -12,6 +12,8 @@ github.com/visualfc/gotools v1.5.4 h1:ydm1Kb+UCylRxOCKjWjC9sXQfvQG8/khxygzLwnORD
 github.com/visualfc/gotools v1.5.4/go.mod h1:VlP59ccCsSmRbFZTbuHgQDrTOi40EGKvyFK2Cq2Far8=
 github.com/visualfc/gotools v1.5.5-0.20260829095928-37d050d3eb58 h1:GpU5lDGZA2gegH0HMI6NtDi2l+05dislHJ6RaceX+RQ=
 github.com/visualfc/gotools v1.5.5-0.20260829095928-37d050d3eb58/go.mod h1:ymCj4CUbObE6C/PBz4DqF8AoI53GRnSu99JfxDf4htI=
+github.com/visualfc/gotools v1.6.0 h1:YAYWNqVxROrOoa+nIbenhOKHTAg6pRfkKpizHQT1dTo=
+github.com/visualfc/gotools v1.6.0/go.mod h1:ymCj4CUbObE6C/PBz4DqF8AoI53GRnSu99JfxDf4htI=
 github.com/visualfc/goversion v1.1.0 h1:EN0YQGRkeGoWTPxPNTnbhyNQyas5leKH5U5lL4t8lRE=
 github.com/visualfc/goversion v1.1.0/go.mod h1:Gr3s6bW8NTomhheImwAttqno97Mw6pAnFn2dU8/EMa8=
 github.com/yuin/goldmark v1.4.13 h1:fVcFKWvrslecOb/tg+Cc05dkeYx540o0FuFt3nUVDoE=

@@ -10,6 +10,11 @@ FAIL = "#{RED}FAIL!#{NC}"
 
 Stats = Struct.new :total, :ok, :fail
 $stats = Stats.new 0, 0, 0
+require "open3"
+root = File.expand_path(__dir__)
+names = Gem.win_platform? ? %w[gocode.exe gocode] : %w[gocode]
+$gocode = names.map { |name| File.join(root, name) }.find { |path| File.file?(path) }
+abort "gocode binary not found in #{root}" unless $gocode
 
 def print_fail_report(t, out, outexpected)
 	puts "#{t}: #{FAIL}"
@@ -37,12 +42,16 @@ def run_test(t)
 	cursorpos = Dir["#{t}/cursor.*"].map{|d| File.extname(d)[1..-1]}.first
 	version = `go env GOVERSION 2>/dev/null`.strip.sub(/^go/, '')
 	major_minor = version.split('.')[0, 2].join('.')
-	versioned = "#{t}/out.expected.go#{major_minor}"
+	windows = ENV["RUNNER_OS"] == "Windows" || File::ALT_SEPARATOR == "\\" || ENV["OS"] == "Windows_NT" || Gem.win_platform? || RUBY_PLATFORM =~ /mingw|mswin|msys/
+	platform = windows ? ".windows" : ""
+	versioned = "#{t}/out.expected.go#{major_minor}#{platform}"
+	versioned = "#{t}/out.expected.go#{major_minor}" unless File.file?(versioned)
 	expected_file = File.file?(versioned) ? versioned : "#{t}/out.expected"
 	outexpected = IO.read(expected_file) rescue "To be determined"
 	filename = "#{t}/test.go.in"
 
-	out = %x[gocode -in #{filename} autocomplete #{filename} #{cursorpos}]
+	out, status = Open3.capture2($gocode, "-in", filename, "autocomplete", filename, cursorpos.to_s)
+	out = "" unless status.success?
 
 	if out != outexpected then
 		print_fail_report(t, out, outexpected)
@@ -62,3 +71,4 @@ else
 end
 
 print_stats
+exit($stats.fail == 0 ? 0 : 1)

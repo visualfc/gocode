@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         go-version: [1.25.x, 1.26.x, 1.27.x]
-        os: [ubuntu-latest, windows-latest, macos-11]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -24,13 +24,7 @@ jobs:
     - name: Build 
       run: go build -v -o _testing/gocode
 
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.3'
-
-    - name: Autocomplete regression tests
+    - name: Regression tests
       working-directory: _testing
-      shell: bash
-      run: PATH="$GITHUB_WORKSPACE/_testing:$PATH" ruby run.rb
+      run: go test -v
   

@@ -1,4 +1,4 @@
-Found 41 candidates:
+Found 43 candidates:
   func Append(b []byte, a ...interface{}) []byte
   func Appendf(b []byte, format string, a ...interface{}) []byte
   func Appendln(b []byte, a ...interface{}) []byte
@@ -34,9 +34,28 @@ Found 41 candidates:
   func UnreadRune() error
   func Width() (wid int, ok bool)
   func Write(b []byte) (n int, err error)
+  func main()
   type Formatter interface
   type GoStringer interface
   type ScanState interface
   type Scanner interface
   type State interface
   type Stringer interface
+  var a Formatter
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
+The system cannot find the path specified.
