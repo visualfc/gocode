@@ -21,8 +21,13 @@ jobs:
       with:
         go-version: ${{ matrix.go-version }}
 
-    - name: Build 
+    - name: Build (Unix)
+      if: runner.os != 'Windows'
       run: go build -v -o _testing/gocode
+
+    - name: Build (Windows)
+      if: runner.os == 'Windows'
+      run: go build -v -o _testing/gocode.exe
 
     - name: Regression tests
       working-directory: _testing

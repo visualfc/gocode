@@ -3,20 +3,23 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 )
 
 func testBinary(t *testing.T) string {
 	t.Helper()
-	for _, name := range []string{"gocode", "gocode.exe"} {
-		path := filepath.Join(".", name)
-		if _, err := os.Stat(path); err == nil {
-			absolute, err := filepath.Abs(path)
-			if err == nil {
-				return absolute
-			}
-			return path
+	name := "gocode"
+	if runtime.GOOS == "windows" {
+		name = "gocode.exe"
+	}
+	path := filepath.Join(".", name)
+	if _, err := os.Stat(path); err == nil {
+		absolute, err := filepath.Abs(path)
+		if err == nil {
+			return absolute
 		}
+		return path
 	}
 	t.Fatalf("gocode binary not found")
 	return ""

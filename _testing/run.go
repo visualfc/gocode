@@ -22,9 +22,7 @@ func main() {
 	root, _ := os.Getwd()
 	bin := filepath.Join(root, "gocode")
 	if runtime.GOOS == "windows" {
-		if _, err := os.Stat(bin + ".exe"); err == nil {
-			bin += ".exe"
-		}
+		bin = filepath.Join(root, "gocode.exe")
 	}
 	if _, err := os.Stat(bin); err != nil {
 		fail("gocode binary not found: %v", err)
