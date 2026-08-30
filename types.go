@@ -1,6 +1,3 @@
-//go:build !go1.18
-// +build !go1.18
-
 package main
 
 import (
@@ -10,57 +7,63 @@ import (
 	"go/token"
 	"go/types"
 	"io"
+	"sort"
 	"strings"
 
 	pkgwalk "github.com/visualfc/gotools/types"
 )
 
-func unsupported() {
-	panic("type parameters are unsupported at this go version")
-}
+type TypeParam = types.TypeParam
+type TypeParamList = types.TypeParamList
 
-var TILDE = token.VAR + 3
-
-type TypeParam struct{ types.Type }
-
-func (*TypeParam) String() string           { unsupported(); return "" }
-func (*TypeParam) Underlying() types.Type   { unsupported(); return nil }
-func (*TypeParam) Index() int               { unsupported(); return 0 }
-func (*TypeParam) Constraint() types.Type   { unsupported(); return nil }
-func (*TypeParam) SetConstraint(types.Type) { unsupported() }
-func (*TypeParam) Obj() *types.TypeName     { unsupported(); return nil }
-
-// TypeParamList is a placeholder for an empty type parameter list.
-type TypeParamList struct{}
-
-func (*TypeParamList) Len() int          { return 0 }
-func (*TypeParamList) At(int) *TypeParam { unsupported(); return nil }
+var TILDE = token.TILDE
 
 func newFuncType(tparams, params, results *ast.FieldList) *ast.FuncType {
-	return &ast.FuncType{Params: params, Results: results}
+	return &ast.FuncType{TypeParams: tparams, Params: params, Results: results}
 }
 
 func newTypeSpec(name string, tparams *ast.FieldList) *ast.TypeSpec {
 	return &ast.TypeSpec{
-		Name: ast.NewIdent(name),
+		Name:       ast.NewIdent(name),
+		TypeParams: tparams,
 	}
 }
 
 func toTypeParam(pkg *types.Package, t *TypeParam) ast.Expr {
-	unsupported()
-	return nil
+	return toObjectExpr(pkg, t.Obj())
 }
 
-func toTypeSpec(pkg *types.Package, t *types.TypeName) *ast.TypeSpec {
-	var assign token.Pos
-	if t.IsAlias() {
-		assign = 1
+func ForSignature(sig *types.Signature) *TypeParamList {
+	return sig.TypeParams()
+}
+
+func ForFuncType(typ *ast.FuncType) *ast.FieldList {
+	return typ.TypeParams
+}
+
+// RecvTypeParams returns a nil slice.
+func RecvTypeParams(sig *types.Signature) *TypeParamList {
+	return sig.RecvTypeParams()
+}
+
+func ForNamed(named *types.Named) *TypeParamList {
+	return named.TypeParams()
+}
+
+func toFieldListX(pkg *types.Package, t *types.TypeParamList) *ast.FieldList {
+	if t == nil {
+		return nil
 	}
-	typ := t.Type()
-	return &ast.TypeSpec{
-		Name:   ast.NewIdent(t.Name()),
-		Assign: assign,
-		Type:   toType(pkg, typ.Underlying()),
+	n := t.Len()
+	flds := make([]*ast.Field, n)
+	for i := 0; i < n; i++ {
+		item := t.At(i)
+		names := []*ast.Ident{ast.NewIdent(item.Obj().Name())}
+		typ := toType(pkg, item.Constraint())
+		flds[i] = &ast.Field{Names: names, Type: typ}
+	}
+	return &ast.FieldList{
+		List: flds,
 	}
 }
 
@@ -75,13 +78,27 @@ func toFuncType(pkg *types.Package, sig *types.Signature) *ast.FuncType {
 		toVariadic(params[n-1])
 	}
 	return &ast.FuncType{
-		Params:  &ast.FieldList{List: params},
-		Results: &ast.FieldList{List: results},
+		TypeParams: toFieldListX(pkg, sig.TypeParams()),
+		Params:     &ast.FieldList{List: params},
+		Results:    &ast.FieldList{List: results},
 	}
 }
 
-func ForFuncType(typ *ast.FuncType) *ast.FieldList {
-	return nil
+func toTypeSpec(pkg *types.Package, t *types.TypeName) *ast.TypeSpec {
+	var assign token.Pos
+	if t.IsAlias() {
+		assign = 1
+	}
+	typ := t.Type()
+	ts := &ast.TypeSpec{
+		Name:   ast.NewIdent(t.Name()),
+		Assign: assign,
+		Type:   toType(pkg, typ.Underlying()),
+	}
+	if named, ok := typ.(*types.Named); ok {
+		ts.TypeParams = toFieldListX(pkg, named.TypeParams())
+	}
+	return ts
 }
 
 // converts type expressions like:
@@ -102,30 +119,92 @@ func get_type_path(e ast.Expr) (r type_path) {
 	case *ast.SelectorExpr:
 		if ident, ok := t.X.(*ast.Ident); ok {
 			r.pkg = ident.Name
+			if r.pkg == "main" {
+				r.pkg = ""
+			}
 		}
 		r.name = t.Sel.Name
+	case *ast.IndexExpr:
+		r = get_type_path(t.X)
+		r.targs = []ast.Expr{t.Index}
+	case *ast.IndexListExpr:
+		r = get_type_path(t.X)
+		r.targs = t.Indices
 	}
 	return
 }
 
 func ast_decl_typeparams(decl ast.Decl) *ast.FieldList {
+	switch t := decl.(type) {
+	case *ast.GenDecl:
+		if t.Tok == token.TYPE {
+			if len(t.Specs) > 0 {
+				if spec, ok := t.Specs[0].(*ast.TypeSpec); ok {
+					return spec.TypeParams
+				}
+			}
+		}
+	case *ast.FuncDecl:
+		return t.Type.TypeParams
+	}
 	return nil
 }
 
 func hasTypeParams(typ types.Type) bool {
+	switch t := typ.(type) {
+	case *types.Named:
+		return t.TypeParams() != nil && (t.Origin() == t)
+	case *types.Signature:
+		return t.TypeParams() != nil
+	}
 	return false
 }
 
 func funcHasTypeParams(typ *ast.FuncType) bool {
-	return false
+	return typ.TypeParams != nil
 }
 
 func toNamedType(pkg *types.Package, t *types.Named) ast.Expr {
-	return toObjectExpr(pkg, t.Obj())
+	expr := toObjectExpr(pkg, t.Obj())
+	if targs := t.TypeArgs(); targs != nil {
+		n := targs.Len()
+		indices := make([]ast.Expr, n)
+		for i := 0; i < n; i++ {
+			indices[i] = toType(pkg, targs.At(i))
+		}
+		if n == 1 {
+			expr = &ast.IndexExpr{
+				X:     expr,
+				Index: indices[0],
+			}
+		} else {
+			expr = &ast.IndexListExpr{
+				X:       expr,
+				Indices: indices,
+			}
+		}
+	}
+	return expr
 }
 
 func lookup_types_near_instance(ident *ast.Ident, pos token.Pos, info *types.Info) types.Type {
-	return nil
+	var ar []*typ_distance
+	for k, v := range info.Instances {
+		if ident.Name == k.Name && pos > k.End() {
+			ar = append(ar, &typ_distance{pos - k.End(), v.Type})
+		}
+	}
+	switch len(ar) {
+	case 0:
+		return nil
+	case 1:
+		return ar[0].typ
+	default:
+		sort.Slice(ar, func(i, j int) bool {
+			return ar[i].pos < ar[j].pos
+		})
+		return ar[0].typ
+	}
 }
 
 func DefaultPkgConfig() *pkgwalk.PkgConfig {
@@ -137,6 +216,7 @@ func DefaultPkgConfig() *pkgwalk.PkgConfig {
 		Types:      make(map[ast.Expr]types.TypeAndValue),
 		Scopes:     make(map[ast.Node]*types.Scope),
 		Implicits:  make(map[ast.Node]types.Object),
+		Instances:  make(map[*ast.Ident]types.Instance),
 	}
 	conf.XInfo = &types.Info{
 		Uses:       make(map[*ast.Ident]types.Object),
@@ -145,6 +225,7 @@ func DefaultPkgConfig() *pkgwalk.PkgConfig {
 		Types:      make(map[ast.Expr]types.TypeAndValue),
 		Scopes:     make(map[ast.Node]*types.Scope),
 		Implicits:  make(map[ast.Node]types.Object),
+		Instances:  make(map[*ast.Ident]types.Instance),
 	}
 	return conf
 }
@@ -236,6 +317,21 @@ func pretty_print_type_expr(out io.Writer, e ast.Expr, canonical_aliases map[str
 		fmt.Fprintf(out, "(")
 		pretty_print_type_expr(out, t.X, canonical_aliases)
 		fmt.Fprintf(out, ")")
+	case *ast.IndexExpr:
+		pretty_print_type_expr(out, t.X, canonical_aliases)
+		fmt.Fprintf(out, "[")
+		pretty_print_type_expr(out, t.Index, canonical_aliases)
+		fmt.Fprintf(out, "]")
+	case *ast.IndexListExpr:
+		pretty_print_type_expr(out, t.X, canonical_aliases)
+		fmt.Fprintf(out, "[")
+		for i, index := range t.Indices {
+			if i != 0 {
+				fmt.Fprintf(out, ", ")
+			}
+			pretty_print_type_expr(out, index, canonical_aliases)
+		}
+		fmt.Fprintf(out, "]")
 	case *ast.BadExpr:
 		// TODO: probably I should check that in a separate function
 		// and simply discard declarations with BadExpr as a part of their
@@ -246,5 +342,11 @@ func pretty_print_type_expr(out io.Writer, e ast.Expr, canonical_aliases map[str
 }
 
 func funHasTypeArgs(fun ast.Expr) bool {
+	switch fun.(type) {
+	case *ast.IndexExpr:
+		return true
+	case *ast.IndexListExpr:
+		return true
+	}
 	return false
 }
