@@ -1,4 +1,4 @@
-Found 70 candidates:
+Found 103 candidates:
   func Addr() reflect.Value
   func Bool() bool
   func Bytes() []byte
@@ -13,16 +13,20 @@ Found 70 candidates:
   func CanSet() bool
   func CanUint() bool
   func Cap() int
+  func Clear()
   func Close()
+  func Comparable() bool
   func Complex() complex128
   func Convert(t reflect.Type) reflect.Value
   func Elem() reflect.Value
+  func Equal(u reflect.Value) bool
   func Field(i int) reflect.Value
   func FieldByIndex(index []int) reflect.Value
   func FieldByIndexErr(index []int) (reflect.Value, error)
   func FieldByName(name string) reflect.Value
   func FieldByNameFunc(match func(string) bool) reflect.Value
   func Float() float64
+  func Grow(n int)
   func Index(i int) reflect.Value
   func Int() int64
   func Interface() (i interface{})
@@ -46,6 +50,8 @@ Found 70 candidates:
   func Pointer() uintptr
   func Recv() (x reflect.Value, ok bool)
   func Send(x reflect.Value)
+  func Seq() iter.Seq[reflect.Value]
+  func Seq2() (iter.Seq2[reflect.Value, reflect.Value])
   func Set(x reflect.Value)
   func SetBool(x bool)
   func SetBytes(x []byte)
@@ -60,6 +66,7 @@ Found 70 candidates:
   func SetPointer(x unsafe.Pointer)
   func SetString(x string)
   func SetUint(x uint64)
+  func SetZero()
   func Slice(i int, j int) reflect.Value
   func Slice3(i int, j int, k int) reflect.Value
   func String() string
@@ -69,3 +76,29 @@ Found 70 candidates:
   func Uint() uint64
   func UnsafeAddr() uintptr
   func UnsafePointer() unsafe.Pointer
+  func abiType() *abi.Type
+  func abiTypeSlow() *abi.Type
+  func assignTo(context string, dst *abi.Type, target unsafe.Pointer) reflect.Value
+  func bytesSlow() []byte
+  func call(op string, in []reflect.Value) []reflect.Value
+  func capNonSlice() int
+  func extendSlice(n int) reflect.Value
+  func grow(n int)
+  func kind() reflect.Kind
+  func lenNonSlice() int
+  func mustBe(expected reflect.Kind)
+  func mustBeAssignable()
+  func mustBeAssignableSlow()
+  func mustBeExported()
+  func mustBeExportedSlow()
+  func panicNotBool()
+  func panicNotMap()
+  func pointer() unsafe.Pointer
+  func recv(nb bool) (val reflect.Value, ok bool)
+  func ro() reflect.flag
+  func runes() []rune
+  func send(x reflect.Value, nb bool) (selected bool)
+  func setRunes(x []rune)
+  func stringNonString() string
+  func typ() *abi.Type
+  func typeSlow() reflect.Type

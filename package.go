@@ -9,7 +9,6 @@ import (
 	"log"
 	"strings"
 
-	"github.com/visualfc/gocode/internal/gcexportdata"
 	"golang.org/x/tools/go/types/typeutil"
 )
 
@@ -187,6 +186,7 @@ func pkg_parse_export(pkg *types.Package, pfc *package_file_cache, callback func
 					Tok:   token.TYPE,
 					Specs: []ast.Spec{toTypeSpec(pkg, t)},
 				}
+				callback(pkgid, decl)
 				if named, ok := t.Type().(*types.Named); ok {
 					for _, sel := range typeutil.IntuitiveMethodSet(named, nil) {
 						sig := sel.Type().(*types.Signature)
@@ -198,6 +198,7 @@ func pkg_parse_export(pkg *types.Package, pfc *package_file_cache, callback func
 						callback(pkgid, decl)
 					}
 				}
+				continue
 			case *types.Func:
 				sig := t.Type().(*types.Signature)
 				decl = &ast.FuncDecl{
@@ -219,17 +220,15 @@ func (m *package_file_cache) process_package_types(c *auto_complete_context, pkg
 	// create map for other packages
 	m.others = make(map[string]*decl)
 
-	var pp package_parser
-	fset := token.NewFileSet()
-	var buf bytes.Buffer
-	gcexportdata.Write(&buf, fset, pkg)
-	var p gc_bin_parser
-	p.init(buf.Bytes(), m)
-	pp = &p
+	var pp types_export
+	pp.init(pkg, m)
 
 	prefix := "!" + m.name + "!"
 	//log.Println("load pkg", pkg.Path(), pkg.Imports())
 	pp.parse_export(func(pkg string, decl ast.Decl) {
+		if decl == nil {
+			return
+		}
 		anonymify_ast(decl, decl_foreign, m.scope)
 		if pkg == "" || strings.HasPrefix(pkg, prefix) {
 			// main package
@@ -332,6 +331,9 @@ func (m *package_file_cache) process_package_data(c *auto_complete_context, data
 
 	prefix := "!" + m.name + "!"
 	pp.parse_export(func(pkg string, decl ast.Decl) {
+		if decl == nil {
+			return
+		}
 		anonymify_ast(decl, decl_foreign, m.scope)
 		if pkg == "" || strings.HasPrefix(pkg, prefix) {
 			// main package

@@ -208,7 +208,6 @@ func lookup_types_near_instance(ident *ast.Ident, pos token.Pos, info *types.Inf
 		})
 		return ar[0].typ
 	}
-	return nil
 }
 
 func DefaultPkgConfig() *pkgwalk.PkgConfig {

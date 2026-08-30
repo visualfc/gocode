@@ -1,0 +1,10 @@
+package main
+
+type Stack[T any] struct { items []T }
+func (s *Stack[T]) Push(v T) { s.items = append(s.items, v) }
+func (s *Stack[T]) Pop() T { return s.items[0] }
+
+func main() {
+	var stack Stack[int]
+	stack.
+}

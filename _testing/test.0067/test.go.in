@@ -1,0 +1,10 @@
+package main
+
+type Number interface { ~int | ~float64 }
+type MyInt int
+func Max[T Number](a, b T) T { if a > b { return a }; return b }
+
+func main() {
+	var value MyInt
+	value.
+}

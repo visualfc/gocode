@@ -1,0 +1,8 @@
+package main
+
+func Identity[T any](v T) T { return v }
+
+func main() {
+	var value = Identity[int](1)
+	value.
+}

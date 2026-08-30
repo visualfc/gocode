@@ -1,0 +1,4 @@
+Found 3 candidates:
+  func Swap(c invalid type, d invalid type) (invalid type)
+  var First int
+  var Second string

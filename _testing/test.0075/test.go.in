@@ -1,0 +1,9 @@
+package main
+
+type Base[T any] struct { ID T }
+type Derived struct { Base[int] }
+
+func main() {
+	var value Derived
+	value.
+}

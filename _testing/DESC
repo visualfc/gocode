@@ -61,3 +61,36 @@ test.0060 - shortcut syntax for return value types in functions
 test.0061 - function body vs struct literal cursor context detection
 test.0062 - struct type alias embedding
 test.0063 - fields autocompletion for a struct literal which is defined by a type alias
+test.0064 - generic struct field completion
+test.0065 - generic function instantiation result
+test.0066 - generic function interface constraint
+test.0067 - union type constraint
+test.0068 - generic methods with receiver type parameters
+test.0069 - multiple type parameters and instantiated struct
+test.0070 - generic function with multiple type parameters
+test.0071 - generic type inference from function result
+test.0072 - generic value and pointer methods
+test.0073 - instantiated multi-parameter pointer method
+test.0074 - generic interface constraint implementation
+test.0075 - embedded instantiated generic type
+test.0076 - generic function inferred struct result
+test.0077 - nested instantiated generic fields
+test.0078 - multi-parameter generic method
+test.0079 - generic slice field instantiation
+test.0080 - constrained generic method
+test.0081 - Go 1.27 generic method type parameter
+test.0082 - generic method returning instantiated generic type
+test.0083 - generic method with multiple own type parameters
+test.0084 - unsafe package declarations
+test.0085 - unsafe.Pointer type
+test.0086 - unsafe.SliceData result
+test.0087 - unsafe.StringData result
+test.0088 - unsafe.Pointer type alias
+typesinfo.0001 - instantiated generic method
+typesinfo.0002 - local variable
+typesinfo.0003 - standard library function and documentation
+typesinfo.0004 - generic type parameter
+typesinfo.0005 - instantiated generic composite literal field
+typesinfo.0006 - generic function instantiation
+typesinfo.0007 - instantiated generic selector field
+typesinfo.0008 - interface method selector

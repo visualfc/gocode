@@ -1,0 +1,11 @@
+package main
+
+type Reader[T any] interface { Read() T }
+type Source struct{}
+func (Source) Read() int { return 0 }
+func Consume[T Reader[int]](r T) int { return r.Read() }
+
+func main() {
+	var source Source
+	source.
+}

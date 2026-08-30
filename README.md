@@ -9,8 +9,9 @@ _LiteIDE is a simple, open source, cross-platform Go IDE._
 _Gocode is a golang code autocomplete support for LiteIDE._
 
 
-- support Go1.11 Go modules.
-- support Go1.18 generics.
+- support Go modules.
+- support generics and current Go syntax.
+- tested with Go 1.25, Go 1.26, and Go 1.27.
 
 ```
 go install github.com/visualfc/gocode@latest
@@ -52,15 +53,7 @@ Also watch the [demo screencast](http://nosmileface.ru/images/gocode-demo.swf).
 
     `export PATH=$PATH:$GOPATH/bin`
 
- 2. Then you need to get the appropriate version of the gocode, for 6g/8g/5g compiler you can do this:
-
-    `go get -u github.com/nsf/gocode` (-u flag for "update")
-
-    Windows users should consider doing this instead:
-
-    `go get -u -ldflags -H=windowsgui github.com/nsf/gocode`
-
-    That way on the Windows OS gocode will be built as a GUI application and doing so solves hanging window issues with some of the editors.
+ 2. Install the latest gocode with `go install github.com/visualfc/gocode@latest`.
 
  3. Next steps are editor specific. See below.
 
@@ -230,6 +223,20 @@ If something went wrong, the first thing you may want to do is manually start th
 Please, report bugs, feature suggestions and other rants to the [github issue tracker](http://github.com/nsf/gocode/issues) of this project.
 
 ### Developing
+
+#### Running tests
+
+The regression tests use the Go standard test runner. Build the test binary and run
+the autocomplete and server-side type information tests from `_testing`:
+
+```sh
+go build -o _testing/gocode .
+cd _testing
+go test -v
+```
+
+On Windows, build the binary as `_testing/gocode.exe` instead. The test fixtures
+include version- and platform-specific expected output where required.
 
 There is [Guide for IDE/editor plugin developers](docs/IDE_integration.md).
 

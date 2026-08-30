@@ -1,0 +1,106 @@
+Found 105 candidates:
+  func Addr() reflect.Value
+  func Bool() bool
+  func Bytes() []byte
+  func Call(in []reflect.Value) []reflect.Value
+  func CallSlice(in []reflect.Value) []reflect.Value
+  func CanAddr() bool
+  func CanComplex() bool
+  func CanConvert(t reflect.Type) bool
+  func CanFloat() bool
+  func CanInt() bool
+  func CanInterface() bool
+  func CanSet() bool
+  func CanUint() bool
+  func Cap() int
+  func Clear()
+  func Close()
+  func Comparable() (#rv1 bool)
+  func Complex() complex128
+  func Convert(t reflect.Type) reflect.Value
+  func Elem() reflect.Value
+  func Equal(u reflect.Value) bool
+  func Field(i int) reflect.Value
+  func FieldByIndex(index []int) reflect.Value
+  func FieldByIndexErr(index []int) (reflect.Value, error)
+  func FieldByName(name string) reflect.Value
+  func FieldByNameFunc(match func(string) bool) reflect.Value
+  func Fields() (iter.Seq2[reflect.StructField, reflect.Value])
+  func Float() float64
+  func Grow(n int)
+  func Index(i int) reflect.Value
+  func Int() int64
+  func Interface() (i interface{})
+  func InterfaceData() [2]uintptr
+  func IsNil() bool
+  func IsValid() bool
+  func IsZero() bool
+  func Kind() reflect.Kind
+  func Len() int
+  func MapIndex(key reflect.Value) reflect.Value
+  func MapKeys() []reflect.Value
+  func MapRange() *reflect.MapIter
+  func Method(i int) reflect.Value
+  func MethodByName(name string) reflect.Value
+  func Methods() (iter.Seq2[reflect.Method, reflect.Value])
+  func NumField() int
+  func NumMethod() int
+  func OverflowComplex(x complex128) bool
+  func OverflowFloat(x float64) bool
+  func OverflowInt(x int64) bool
+  func OverflowUint(x uint64) bool
+  func Pointer() uintptr
+  func Recv() (x reflect.Value, ok bool)
+  func Send(x reflect.Value)
+  func Seq() iter.Seq[reflect.Value]
+  func Seq2() (iter.Seq2[reflect.Value, reflect.Value])
+  func Set(x reflect.Value)
+  func SetBool(x bool)
+  func SetBytes(x []byte)
+  func SetCap(n int)
+  func SetComplex(x complex128)
+  func SetFloat(x float64)
+  func SetInt(x int64)
+  func SetIterKey(iter *reflect.MapIter)
+  func SetIterValue(iter *reflect.MapIter)
+  func SetLen(n int)
+  func SetMapIndex(key reflect.Value, elem reflect.Value)
+  func SetPointer(x unsafe.Pointer)
+  func SetString(x string)
+  func SetUint(x uint64)
+  func SetZero()
+  func Slice(i int, j int) reflect.Value
+  func Slice3(i int, j int, k int) reflect.Value
+  func String() string
+  func TryRecv() (x reflect.Value, ok bool)
+  func TrySend(x reflect.Value) bool
+  func Type() reflect.Type
+  func Uint() uint64
+  func UnsafeAddr() uintptr
+  func UnsafePointer() unsafe.Pointer
+  func abiType() *abi.Type
+  func abiTypeSlow() *abi.Type
+  func assignTo(context string, dst *abi.Type, target unsafe.Pointer) reflect.Value
+  func bytesSlow() []byte
+  func call(op string, in []reflect.Value) []reflect.Value
+  func capNonSlice() int
+  func extendSlice(n int) reflect.Value
+  func grow(n int)
+  func kind() reflect.Kind
+  func lenNonSlice() int
+  func mustBe(expected reflect.Kind)
+  func mustBeAssignable()
+  func mustBeAssignableSlow()
+  func mustBeExported()
+  func mustBeExportedSlow()
+  func panicNotBool()
+  func panicNotMap()
+  func pointer() unsafe.Pointer
+  func recv(nb bool) (val reflect.Value, ok bool)
+  func ro() reflect.flag
+  func runes() []rune
+  func send(x reflect.Value, nb bool) (selected bool)
+  func setRunes(x []rune)
+  func stringNonString() string
+  func typ() *abi.Type
+  func typeSlow() reflect.Type

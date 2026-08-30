@@ -1,0 +1,9 @@
+package main
+
+type Converter[A, B any] struct { From A; To B }
+func (c Converter[A, B]) Convert(v A) B { return c.To }
+
+func main() {
+	var converter Converter[int, string]
+	converter.
+}

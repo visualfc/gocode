@@ -1,0 +1,8 @@
+package main
+
+type Box[T any] struct { Value T }
+
+func main() {
+	var box Box[int]
+	box.
+}

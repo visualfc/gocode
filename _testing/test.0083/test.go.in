@@ -1,0 +1,9 @@
+package main
+
+type Pair[A, B any] struct { First A; Second B }
+func (p Pair[A, B]) Swap[C, D any](c C, d D) Pair[D, C] { return Pair[D, C]{d, c} }
+
+func main() {
+	var pair Pair[int, string]
+	pair.
+}

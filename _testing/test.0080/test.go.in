@@ -1,0 +1,10 @@
+package main
+
+type Constraint interface { ~int | ~string }
+type Wrapper[T Constraint] struct { Value T }
+func (w Wrapper[T]) ValueOf() T { return w.Value }
+
+func main() {
+	var wrapper Wrapper[string]
+	wrapper.
+}

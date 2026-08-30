@@ -1,0 +1,4 @@
+Found 3 candidates:
+  func Get() string
+  func Set(v string)
+  var value string

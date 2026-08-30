@@ -1,0 +1,8 @@
+package main
+
+func Convert[T, U any](v T) U { var zero U; return zero }
+
+func main() {
+	var value = Convert[int, string](1)
+	value.
+}

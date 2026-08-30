@@ -1,0 +1,4 @@
+Found 3 candidates:
+  func Pop() int
+  func Push(v int)
+  var items []int

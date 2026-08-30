@@ -1,0 +1,2 @@
+FILE:5:17
+func (Box[int]).Get() int

@@ -1,23 +1,39 @@
-Found 25 candidates:
+Found 41 candidates:
+  func Append(b []byte, a ...interface{}) []byte
+  func Appendf(b []byte, format string, a ...interface{}) []byte
+  func Appendln(b []byte, a ...interface{}) []byte
   func Errorf(format string, a ...interface{}) error
+  func Flag(c int) bool
+  func Format(f fmt.State, verb rune)
+  func FormatString(state fmt.State, verb rune) string
   func Fprint(w io.Writer, a ...interface{}) (n int, err error)
   func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error)
   func Fprintln(w io.Writer, a ...interface{}) (n int, err error)
   func Fscan(r io.Reader, a ...interface{}) (n int, err error)
   func Fscanf(r io.Reader, format string, a ...interface{}) (n int, err error)
   func Fscanln(r io.Reader, a ...interface{}) (n int, err error)
+  func GoString() string
+  func Precision() (prec int, ok bool)
   func Print(a ...interface{}) (n int, err error)
   func Printf(format string, a ...interface{}) (n int, err error)
   func Println(a ...interface{}) (n int, err error)
+  func Read(buf []byte) (n int, err error)
+  func ReadRune() (r rune, size int, err error)
   func Scan(a ...interface{}) (n int, err error)
   func Scanf(format string, a ...interface{}) (n int, err error)
   func Scanln(a ...interface{}) (n int, err error)
+  func SkipSpace()
   func Sprint(a ...interface{}) string
   func Sprintf(format string, a ...interface{}) string
   func Sprintln(a ...interface{}) string
   func Sscan(str string, a ...interface{}) (n int, err error)
   func Sscanf(str string, format string, a ...interface{}) (n int, err error)
   func Sscanln(str string, a ...interface{}) (n int, err error)
+  func String() string
+  func Token(skipSpace bool, f func(rune) bool) (token []byte, err error)
+  func UnreadRune() error
+  func Width() (wid int, ok bool)
+  func Write(b []byte) (n int, err error)
   type Formatter interface
   type GoStringer interface
   type ScanState interface

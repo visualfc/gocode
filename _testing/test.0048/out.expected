@@ -1,4 +1,7 @@
-Found 7 candidates:
+Found 10 candidates:
+  func Flag(c int) bool
+  func Format(f fmt.State, verb rune)
+  func FormatString(state fmt.State, verb rune) string
   func Fprint(w io.Writer, a ...interface{}) (n int, err error)
   func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error)
   func Fprintln(w io.Writer, a ...interface{}) (n int, err error)

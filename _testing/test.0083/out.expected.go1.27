@@ -1,0 +1,4 @@
+Found 3 candidates:
+  func Swap(c C, d D) (Pair[D, C])
+  var First int
+  var Second string

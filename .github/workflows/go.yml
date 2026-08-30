@@ -10,8 +10,8 @@ jobs:
   Test:
     strategy:
       matrix:
-        go-version: [1.16.x, 1.17.x, 1.18.x, 1.19.x]
-        os: [ubuntu-latest, windows-latest, macos-11]
+        go-version: [1.25.x, 1.26.x, 1.27.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -21,6 +21,15 @@ jobs:
       with:
         go-version: ${{ matrix.go-version }}
 
-    - name: Build 
-      run: go build -v
+    - name: Build (Unix)
+      if: runner.os != 'Windows'
+      run: go build -v -o _testing/gocode
+
+    - name: Build (Windows)
+      if: runner.os == 'Windows'
+      run: go build -v -o _testing/gocode.exe
+
+    - name: Regression tests
+      working-directory: _testing
+      run: go test -v
   

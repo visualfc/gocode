@@ -1,0 +1,10 @@
+package main
+
+type Named struct{}
+func (Named) String() string { return "" }
+func Use[T interface{ String() string }](v T) {}
+
+func main() {
+	var value Named
+	value.
+}
