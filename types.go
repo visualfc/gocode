@@ -259,9 +259,9 @@ func pretty_print_type_expr(out io.Writer, e ast.Expr, canonical_aliases map[str
 			if alias == "" {
 				alias = t.Name[emarkIdx+1:]
 			}
-			fmt.Fprintf(out, alias)
+			fmt.Fprint(out, alias)
 		} else {
-			fmt.Fprintf(out, t.Name)
+			fmt.Fprint(out, t.Name)
 		}
 	case *ast.ArrayType:
 		al := ""
