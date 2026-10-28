@@ -1,0 +1,8 @@
+package main
+
+import "bytes"
+
+func main() {
+	b := bytes.NewBuffer(nil)
+	b.
+}
