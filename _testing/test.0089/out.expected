@@ -1,0 +1,25 @@
+Found 24 candidates:
+  func Available() int
+  func AvailableBuffer() []byte
+  func Bytes() []byte
+  func Cap() int
+  func Grow(n int)
+  func Len() int
+  func Next(n int) []byte
+  func Peek(n int) ([]byte, error)
+  func Read(p []byte) (n int, err error)
+  func ReadByte() (byte, error)
+  func ReadBytes(delim byte) (line []byte, err error)
+  func ReadFrom(r io.Reader) (n int64, err error)
+  func ReadRune() (r rune, size int, err error)
+  func ReadString(delim byte) (line string, err error)
+  func Reset()
+  func String() string
+  func Truncate(n int)
+  func UnreadByte() error
+  func UnreadRune() error
+  func Write(p []byte) (n int, err error)
+  func WriteByte(c byte) error
+  func WriteRune(r rune) (n int, err error)
+  func WriteString(s string) (n int, err error)
+  func WriteTo(w io.Writer) (n int64, err error)

@@ -1101,10 +1101,13 @@ func infer_type(v ast.Expr, scope *scope, index int) (ast.Expr, *scope, bool) {
 				}
 			}
 
-			// then check for an ordinary function call
-			it, scope = advance_to_type(func_predicate, it, s)
+			// then check for an ordinary function call.
+			// Resolve the result type in the caller's scope: imported named
+			// types are qualified as pkg.T relative to the current file, and
+			// "pkg" is not defined inside that package's own scope.
+			it, _ = advance_to_type(func_predicate, it, s)
 			if ct, ok := it.(*ast.FuncType); ok {
-				return func_return_type(ct, index), s, false
+				return func_return_type(ct, index), scope, false
 			}
 		}
 	case *ast.ParenExpr:
@@ -1124,8 +1127,9 @@ func infer_type(v ast.Expr, scope *scope, index int) (ast.Expr, *scope, bool) {
 				if c.class == decl_type {
 					return t, scope, true
 				} else {
-					typ, s := c.infer_type()
-					return typ, s, false
+					typ, _ := c.infer_type()
+					// Resolve pkg.T in the selector's file scope, not inside pkg.
+					return typ, scope, false
 				}
 			}
 		}
